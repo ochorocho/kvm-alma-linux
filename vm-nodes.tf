@@ -1,8 +1,3 @@
-locals {
-  main  = var.machines.main
-  nodes = {for key, value in var.machines : key => value if key != "main"}
-}
-
 resource "libvirt_pool" "vm-storage" {
   name = "cloud-storage"
   type = "dir"
@@ -29,14 +24,15 @@ resource "local_file" "network_config" {
   filename = "${path.module}/.generated/network_config_rendered-${each.value.name}.yaml"
 
   content = templatefile("${path.module}/${var.cloud_init_network_config}", {
-    ip_address = each.value.ip_address
-    gateway    = each.value.dns
-    dns        = each.value.dns
+    # @todo: Enable once we decided what todo with the network.
+    #    ip_address = each.value.ip_address
+    #    gateway    = each.value.dns
+    #    dns        = each.value.dns
   })
 }
 
 resource "libvirt_domain" "vm-node" {
-  for_each  = local.nodes
+  for_each  = var.machines
   name      = each.value.name
   memory    = each.value.memory
   vcpu      = each.value.cpu
@@ -46,7 +42,7 @@ resource "libvirt_domain" "vm-node" {
   qemu_agent = true
 
   network_interface {
-    hostname       = local.nodes[each.key].name
+    hostname       = var.machines[each.key].name
     bridge         = var.network_bridge
     # Wait for IP address
     wait_for_lease = true
@@ -76,17 +72,16 @@ resource "libvirt_domain" "vm-node" {
 }
 
 resource "local_file" "user_data_nodes" {
-  for_each = local.nodes
+  for_each = var.machines
   filename = "${path.module}/.generated/user_data_rendered-${each.value.name}.yaml"
 
   content = templatefile("${path.module}/${var.cloud_init_user_data}", {
     hostname    = each.value.name
-    k3s_command = "curl -sfL https://get.k3s.io | K3S_URL=https://${libvirt_domain.vm-main.network_interface.0.addresses.0}:6443 K3S_TOKEN=${trimspace(data.local_file.token.content)} sh -"
   })
 }
 
 resource "libvirt_cloudinit_disk" "commoninit_nodes" {
-  for_each       = local.nodes
+  for_each       = var.machines
   name           = "commoninit-${each.value.name}.iso"
   user_data      = local_file.user_data_nodes[each.key].content
   network_config = local_file.network_config[each.key].content
