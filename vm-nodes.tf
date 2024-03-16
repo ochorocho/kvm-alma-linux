@@ -19,17 +19,17 @@ resource "libvirt_volume" "vm-qcow2" {
   format         = "qcow2"
 }
 
-resource "local_file" "network_config" {
-  for_each = var.machines
-  filename = "${path.module}/.generated/network_config_rendered-${each.value.name}.yaml"
-
-  content = templatefile("${path.module}/${var.cloud_init_network_config}", {
-    # @todo: Enable once we decided what todo with the network.
-    #    ip_address = each.value.ip_address
-    #    gateway    = each.value.dns
-    #    dns        = each.value.dns
-  })
-}
+# @todo: Enable once we decided what todo with the network.
+#resource "local_file" "network_config" {
+#  for_each = var.machines
+#  filename = "${path.module}/.generated/network_config_rendered-${each.value.name}.yaml"
+#
+#  content = templatefile("${path.module}/${var.cloud_init_network_config}", {
+#    #    ip_address = each.value.ip_address
+#    #    gateway    = each.value.dns
+#    #    dns        = each.value.dns
+#  })
+#}
 
 resource "libvirt_domain" "vm-node" {
   for_each  = var.machines
