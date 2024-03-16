@@ -1,0 +1,14 @@
+#cloud-config
+
+network:
+    version: 2
+    renderer: networkd
+    ethernets:
+        eth0:
+            # Use DHCP for now, as we do not have static ip addresses
+            dhcp4: yes
+            #dhcp4: no
+            #addresses: [${ip_address}/24]
+            #gateway4: ${gateway}
+            #nameservers:
+            #    addresses: [${dns}]
