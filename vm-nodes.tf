@@ -84,6 +84,7 @@ resource "libvirt_cloudinit_disk" "commoninit_nodes" {
   for_each       = var.machines
   name           = "commoninit-${each.value.name}.iso"
   user_data      = local_file.user_data_nodes[each.key].content
-  network_config = local_file.network_config[each.key].content
+  # @todo:
+  # network_config = local_file.network_config[each.key].content
   pool           = libvirt_pool.vm-storage.name
 }
