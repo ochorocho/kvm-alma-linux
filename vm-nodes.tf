@@ -20,16 +20,16 @@ resource "libvirt_volume" "vm-qcow2" {
 }
 
 # @todo: Enable once we decided what todo with the network.
-#resource "local_file" "network_config" {
-#  for_each = var.machines
-#  filename = "${path.module}/.generated/network_config_rendered-${each.value.name}.yaml"
-#
-#  content = templatefile("${path.module}/${var.cloud_init_network_config}", {
-#    #    ip_address = each.value.ip_address
-#    #    gateway    = each.value.dns
-#    #    dns        = each.value.dns
-#  })
-#}
+resource "local_file" "network_config" {
+  for_each = var.machines
+  filename = "${path.module}/.generated/network_config_rendered-${each.value.name}.yaml"
+
+  content = templatefile("${path.module}/${var.cloud_init_network_config}", {
+    #    ip_address = each.value.ip_address
+    #    gateway    = each.value.dns
+    #    dns        = each.value.dns
+  })
+}
 
 resource "libvirt_domain" "vm-node" {
   for_each  = var.machines
@@ -84,6 +84,6 @@ resource "libvirt_cloudinit_disk" "commoninit_nodes" {
   name           = "commoninit-${each.value.name}.iso"
   user_data      = local_file.user_data_nodes[each.key].content
   # @todo:
-  # network_config = local_file.network_config[each.key].content
+  network_config = local_file.network_config[each.key].content
   pool           = libvirt_pool.vm-storage.name
 }
