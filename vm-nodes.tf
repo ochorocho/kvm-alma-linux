@@ -44,6 +44,7 @@ resource "libvirt_domain" "vm-node" {
   network_interface {
     hostname       = var.machines[each.key].name
     bridge         = var.network_bridge
+    wait_for_lease = true
   }
 
   console {
