@@ -7,8 +7,8 @@ network:
         eth0:
             # Use DHCP for now, as we do not have static ip addresses
             # dhcp4: yes
-            #dhcp4: no
-            #addresses: [${ip_address}/24]
-            #gateway4: ${gateway}
-            #nameservers:
-            #    addresses: [${dns}]
+            dhcp4: no
+            addresses: [${ip_address}/24]
+            gateway4: ${gateway}
+            nameservers:
+                addresses: [${dns}]
