@@ -2,8 +2,11 @@
 libvirt_uri = "qemu:///system"
 
 # Must be a cloud init ready image
-os_uri = "https://cloud-images.ubuntu.com/releases/22.04/release/ubuntu-22.04-server-cloudimg-amd64-disk-kvm.img"
+#os_uri = "https://cloud-images.ubuntu.com/releases/22.04/release/ubuntu-22.04-server-cloudimg-amd64-disk-kvm.img"
 #os_uri = "https://cloud.centos.org/centos/6/images/CentOS-6-x86_64-GenericCloud.qcow2"
+os_uri = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
+# CentOS-7-x86_64-GenericCloud.qcow2
+
 
 # @todo: Get some sane network config up and running
 # Define bridge for the other VMs to connect to
