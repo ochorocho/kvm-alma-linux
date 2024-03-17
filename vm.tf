@@ -39,11 +39,11 @@ resource "libvirt_domain" "vm-node" {
   cloudinit = libvirt_cloudinit_disk.commoninit[each.key].id
 
   # Required for "wait_for_lease" to work
-  #  qemu_agent = true
+  qemu_agent = true
   #  network_interface {
   #    hostname       = var.machines[each.key].name
   #    bridge         = var.network_bridge
-  #    wait_for_lease = true
+  #    wait_for_lease = false
   #  }
 
   console {
@@ -66,6 +66,23 @@ resource "libvirt_domain" "vm-node" {
     type        = "spice"
     listen_type = "address"
     autoport    = true
+  }
+}
+
+resource "libvirt_network" "terraform_network" {
+  name = "terraform-centos"
+
+  # mode can be: "nat" (default), "none", "route", "open", "bridge"
+  mode = "nat"
+
+  #  the domain used by the DNS server in this network
+  domain = "k8s.local"
+
+  addresses = ["10.17.3.0/24", "2001:db8:ca2:2::1/64"]
+
+  dns {
+    enabled = true
+    #￼   local_only = true
   }
 }
 
