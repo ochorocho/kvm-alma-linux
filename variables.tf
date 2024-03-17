@@ -6,8 +6,8 @@ variable "machines" {
     memory     = number
     name       = string
     size       = number
-    #    ip_address = string
-    #    dns        = string
+    ip_address = string
+    dns        = string
   }))
   default = {
     "node-1" = {
