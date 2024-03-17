@@ -2,7 +2,7 @@
 
 users:
   - default
-  - name: alama-test
+  - name: alma
     shell: /bin/bash
     lock-passwd: false
     ssh_pwauth: True

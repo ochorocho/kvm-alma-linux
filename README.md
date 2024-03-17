@@ -25,6 +25,18 @@ Delete all VMs and destroy its resources.
 tofu destroy -var-file="custom.tfvars" -auto-approve
 ```
 
+## Login
+
+```bash
+virsh console <vm-name>
+```
+
+To exit virsh console after logout:  `ctrl`+`alt`+`6`
+
 ## Default user
 
 Username: `k3s`
+
+Password: `password`
+
+

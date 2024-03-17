@@ -39,13 +39,11 @@ resource "libvirt_domain" "vm-node" {
   cloudinit = libvirt_cloudinit_disk.commoninit_nodes[each.key].id
 
   # Required for "wait_for_lease" to work
-  qemu_agent = true
+  qemu_agent = false
 
   network_interface {
     hostname       = var.machines[each.key].name
     bridge         = var.network_bridge
-    # Wait for IP address
-    wait_for_lease = true
   }
 
   console {
