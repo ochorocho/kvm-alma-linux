@@ -25,9 +25,9 @@ resource "local_file" "network_config" {
   filename = "${path.module}/.generated/network_config_rendered-${each.value.name}.yaml"
 
   content = templatefile("${path.module}/${var.cloud_init_network_config}", {
-    #    ip_address = each.value.ip_address
-    #    gateway    = each.value.dns
-    #    dns        = each.value.dns
+        ip_address = each.value.ip_address
+        gateway    = each.value.dns
+        dns        = each.value.dns
   })
 }
 

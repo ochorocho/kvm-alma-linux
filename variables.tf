@@ -15,16 +15,16 @@ variable "machines" {
       memory     = 4096
       name       = "node-1"
       size       = 10737418240
-      #      ip_address = "192.168.0.201"
-      #      dns        = "192.168.0.1"
+      ip_address = "192.168.0.201"
+      dns        = "192.168.0.1"
     }
     "node-2" = {
       cpu        = 2
       memory     = 4096
       name       = "node-2"
       size       = 10737418240
-      #      ip_address = "192.168.0.202"
-      #      dns        = "192.168.0.1"
+      ip_address = "192.168.0.202"
+      dns        = "192.168.0.1"
     }
   }
 }
